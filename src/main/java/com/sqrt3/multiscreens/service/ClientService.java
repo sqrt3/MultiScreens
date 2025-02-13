@@ -54,8 +54,8 @@ public class ClientService {
   public Client updateClient(String name, MultipartFile file) {
     Client existingClient = clientRepository.findByName(name);
     if (existingClient == null) {
-      throw new IllegalArgumentException("Client not found with id: " + id);
+      throw new IllegalArgumentException("Client not found with name: " + name);
     }
-    return clientRepository.update(id);
+    return clientRepository.update(name);
   }
 }

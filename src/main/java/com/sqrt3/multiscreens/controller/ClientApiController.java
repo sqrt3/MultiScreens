@@ -30,9 +30,9 @@ public class ClientApiController {
     return clientService.saveClient(name, file);
   }
 
-  @PutMapping("/{clientId}")
-  public Client updateClient(@PathVariable Long clientId, @RequestParam String name, @RequestParam MultipartFile file) {
-    return clientService.updateClient(clientId, name, file);
+  @PutMapping("/{name}")
+  public Client updateClient(@PathVariable String name, @RequestParam MultipartFile file) {
+    return clientService.updateClient(name, file);
   }
 
   @GetMapping("/status/{name}")

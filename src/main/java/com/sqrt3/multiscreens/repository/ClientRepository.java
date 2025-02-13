@@ -40,8 +40,8 @@ public class ClientRepository {
     return new ArrayList<>(clients.values());
   }
 
-  public Client update(Long clientId) {
-    Client existingClient = clients.get(clientId);
+  public Client update(String name) {
+    Client existingClient = findByName(name);
     if (existingClient != null) {
       existingClient.setUpdatedTime(LocalDateTime.now());
       return existingClient;
