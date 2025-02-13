@@ -2,6 +2,7 @@ package com.sqrt3.multiscreens.service;
 
 import com.sqrt3.multiscreens.model.Client;
 import com.sqrt3.multiscreens.repository.ClientRepository;
+import com.sqrt3.multiscreens.util.FileSaver;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -22,29 +23,13 @@ public class ClientService {
     return clientRepository.findAll();
   }
 
-  public Client findClientById(Long id) {
-    return clientRepository.findById(id);
-  }
-
   public Client findClientByName(String name) {
     return clientRepository.findByName(name);
   }
 
   public Client saveClient(String name, MultipartFile file) {
-    try {
-      File uploadDir = new File("C:/Files/");
-      if (!uploadDir.exists()) {
-        uploadDir.mkdirs();
-      }
-
-      File uploadedFile = new File(uploadDir, name + ".png");
-      file.transferTo(uploadedFile);
-
-      return clientRepository.save(name);
-    } catch (IOException e) {
-      log.error("Error saving client");
-      return null;
-    }
+    FileSaver.saveFile(name, file);
+    return clientRepository.save(name);
   }
 
   public void deleteClientById(Long id) {
@@ -56,6 +41,7 @@ public class ClientService {
     if (existingClient == null) {
       throw new IllegalArgumentException("Client not found with name: " + name);
     }
+    FileSaver.saveFile(name, file);
     return clientRepository.update(name);
   }
 }
