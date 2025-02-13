@@ -32,10 +32,6 @@ public class ClientService {
     return clientRepository.save(name);
   }
 
-  public void deleteClientById(Long id) {
-    clientRepository.delete(id);
-  }
-
   public Client updateClient(String name, MultipartFile file) {
     Client existingClient = clientRepository.findByName(name);
     if (existingClient == null) {
