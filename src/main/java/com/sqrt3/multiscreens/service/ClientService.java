@@ -3,9 +3,6 @@ package com.sqrt3.multiscreens.service;
 import com.sqrt3.multiscreens.model.Client;
 import com.sqrt3.multiscreens.repository.ClientRepository;
 import com.sqrt3.multiscreens.util.FileSaver;
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +21,11 @@ public class ClientService {
   }
 
   public Client findClientByName(String name) {
-    return clientRepository.findByName(name);
+    Client client = clientRepository.findByName(name);
+    if (client == null) {
+      throw new IllegalArgumentException("Client not found with name: " + name);
+    }
+    return client;
   }
 
   public Client saveClient(String name, MultipartFile file) {
@@ -39,5 +40,18 @@ public class ClientService {
     }
     FileSaver.saveFile(name, file);
     return clientRepository.update(name);
+  }
+
+  public Client updateClientStatus(String name, boolean status) {
+    Client existingClient = clientRepository.findByName(name);
+    if (existingClient == null) {
+      throw new IllegalArgumentException("Client not found with name: " + name);
+    }
+    existingClient.setScreenshotRequested(status);
+    return clientRepository.update(name, status);
+  }
+
+  public void updateAllClient() {
+    clientRepository.updateAll();
   }
 }
