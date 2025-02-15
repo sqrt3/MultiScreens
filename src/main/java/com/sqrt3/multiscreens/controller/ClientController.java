@@ -15,7 +15,7 @@ public class ClientController {
 
   @GetMapping
   public String getAllClients(HttpServletRequest request, Model model) {
-    if (request.getRemoteAddr().equals("localhost"))
+    if (request.getRemoteAddr().equals("0:0:0:0:0:0:0:1"))
       model.addAttribute("clients", clientService.findAllClient());
     return "client_list";
   }
