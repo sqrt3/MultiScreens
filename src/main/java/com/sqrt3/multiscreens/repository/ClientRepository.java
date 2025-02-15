@@ -15,16 +15,22 @@ public class ClientRepository {
   private Long sequence = 0L;
 
   public Client save(String name) {
-    Client client = new Client();
-    client.setId(sequence++);
-    client.setName(name);
-    client.setUpdatedTime(LocalDateTime.now());
-    clients.put(client.getId(), client);
-    return client;
-  }
+    Client client;
+    if (findByName(name) != null) {
+      client = findByName(name);
 
-  public Client findById(Long id) {
-    return clients.get(id);
+      client.setUpdatedTime(LocalDateTime.now());
+      client.setScreenshotRequested(false);
+    } else {
+      client = new Client();
+
+      client.setId(sequence++);
+      client.setName(name);
+      client.setUpdatedTime(LocalDateTime.now());
+      client.setScreenshotRequested(false);
+      clients.put(client.getId(), client);
+    }
+    return client;
   }
 
   public Client findByName(String name) {
@@ -50,7 +56,21 @@ public class ClientRepository {
     }
   }
 
-  public void delete(Long clientId) {
-    clients.remove(clientId);
+  public Client update(String name, boolean status) {
+    Client existingClient = findByName(name);
+    if (existingClient != null) {
+      existingClient.setScreenshotRequested(status);
+      existingClient.setUpdatedTime(LocalDateTime.now());
+      return existingClient;
+    } else {
+      return null;
+    }
+  }
+
+  public void updateAll() {
+    for (Client client : clients.values()) {
+      client.setUpdatedTime(LocalDateTime.now());
+      client.setScreenshotRequested(true);
+    }
   }
 }
