@@ -3,6 +3,7 @@ package com.sqrt3.multiscreens.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Client {
 
   private Long id;
@@ -18,5 +20,7 @@ public class Client {
 
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private LocalDateTime updatedTime;
-  private Boolean screenshotRequested;
+
+  @Builder.Default
+  private Boolean screenshotRequested = false;
 }
